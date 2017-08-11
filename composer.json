@@ -1,0 +1,23 @@
+{
+    "name": "dench/yii2-block",
+    "description": "Block",
+    "type": "yii2-extension",
+    "keywords": ["yii2","extension", "block"],
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Dench",
+            "email": "dench@i.ua"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "*",
+        "dench/yii2-language": "@dev",
+        "2amigos/yii2-ckeditor-widget": "~2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "dench\\block\\": ""
+        }
+    }
+}
