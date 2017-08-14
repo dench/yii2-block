@@ -64,7 +64,7 @@ class Block extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('block', 'ID'),
+            'id' => 'ID',
             'name' => Yii::t('block', 'Name'),
             'controller' => Yii::t('block', 'Controller'),
             'enabled' => Yii::t('block', 'Enabled'),
