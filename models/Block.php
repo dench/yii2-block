@@ -16,6 +16,7 @@ use yii\db\ActiveRecord;
  * @property integer $enabled
  *
  * Language
+ *
  * @property string $html
  */
 class Block extends ActiveRecord
