@@ -10,9 +10,9 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * BlockController implements the CRUD actions for Block model.
+ * DefaultController implements the CRUD actions for Block model.
  */
-class BlockController extends Controller
+class DefaultController extends Controller
 {
     /**
      * @inheritdoc
@@ -65,13 +65,16 @@ class BlockController extends Controller
     {
         $model = new Block();
 
+        $model->loadDefaultValues();
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+            Yii::$app->session->setFlash('success', Yii::t('block', 'Information added successfully.'));
+            return $this->redirect(['index']);
         }
+
+        return $this->render('create', [
+            'model' => $model,
+        ]);
     }
 
     /**
@@ -82,15 +85,16 @@ class BlockController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        $model = $this->findModelMulti($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+            Yii::$app->session->setFlash('success', Yii::t('block', 'Information added successfully.'));
+            return $this->redirect(['index']);
         }
+
+        return $this->render('update', [
+            'model' => $model,
+        ]);
     }
 
     /**
@@ -119,6 +123,22 @@ class BlockController extends Controller
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+
+    /**
+     * Finds the Page model based on its primary key value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     * @param integer $id
+     * @return Block|\yii\db\ActiveRecord
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    protected function findModelMulti($id)
+    {
+        if (($model = Block::find()->where(['id' => $id])->multilingual()->one()) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException(Yii::t('block', 'The requested page does not exist.'));
         }
     }
 }

@@ -16,16 +16,15 @@ class m170811_083803_create_block_table extends Migration
 
         $this->createTable('block', [
             'id' => $this->primaryKey(),
-            'code' => $this->string(32)->notNull(),
+            'name' => $this->string(32)->unique()->notNull(),
             'controller' => $this->string(),
-            'enabled' => $this->boolean(),
+            'enabled' => $this->boolean()->notNull()->defaultValue(1),
         ], $tableOptions);
 
         $this->createTable('block_lang', [
             'block_id' => $this->integer()->notNull(),
             'lang_id' => $this->string(3)->notNull(),
-            'name' => $this->string(),
-            'text' => $this->text(),
+            'html' => $this->text(),
         ], $tableOptions);
 
         $this->addPrimaryKey('pk_block_lang', 'block_lang', ['block_id', 'lang_id']);

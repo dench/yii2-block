@@ -11,17 +11,18 @@ use yii\db\ActiveRecord;
  * This is the model class for table "block".
  *
  * @property integer $id
- * @property string $code
+ * @property string $name
  * @property string $controller
  * @property integer $enabled
  *
  * Language
- *
- * @property string $name
- * @property string $text
+ * @property string $html
  */
 class Block extends ActiveRecord
 {
+    const DISABLED = 0;
+    const ENABLED = 1;
+
     /**
      * @inheritdoc
      */
@@ -46,11 +47,14 @@ class Block extends ActiveRecord
     public function rules()
     {
         return [
-            [['code'], 'required'],
-            [['enabled'], 'integer'],
-            [['code'], 'string', 'max' => 32],
-            [['controller', 'name'], 'string', 'max' => 255],
-            [['text'], 'string'],
+            [['name'], 'required'],
+            [['name'], 'unique'],
+            [['name'], 'string', 'max' => 32],
+            [['enabled'], 'boolean'],
+            [['enabled'], 'default', 'value' => self::ENABLED],
+            [['enabled'], 'in', 'range' => [self::ENABLED, self::DISABLED]],
+            [['controller'], 'string', 'max' => 255],
+            [['html'], 'string'],
         ];
     }
 
@@ -61,11 +65,10 @@ class Block extends ActiveRecord
     {
         return [
             'id' => Yii::t('block', 'ID'),
-            'code' => Yii::t('block', 'Code'),
+            'name' => Yii::t('block', 'Name'),
             'controller' => Yii::t('block', 'Controller'),
             'enabled' => Yii::t('block', 'Enabled'),
-            'name' => Yii::t('block', 'Name'),
-            'text' => Yii::t('block', 'Text'),
+            'html' => Yii::t('block', 'Html'),
         ];
     }
 
